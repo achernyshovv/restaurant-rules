@@ -1,18 +1,28 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from .models import Cook, Dish, Ingredient, DishType
 
 
 @admin.register(Cook)
-class CooksAdmin(admin.ModelAdmin):
+class CookAdmin(UserAdmin):
     search_fields = ("first_name", "last_name")
     list_display = ("username", "first_name", "last_name", "years_of_experience")
-    fields = (
-        "username",
-        "first_name",
-        "last_name",
-        "email",
-        "password",
-        "years_of_experience",
+    fieldsets = UserAdmin.fieldsets + (
+        ("Additional info", {"fields": ("years_of_experience",)}),
+    )
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "years_of_experience",
+                ),
+            },
+        ),
     )
 
     def get_form(self, request, obj=None, **kwargs):
@@ -46,7 +56,7 @@ class DishAdmin(admin.ModelAdmin):
 
 
 @admin.register(Ingredient)
-class IngredientsAdmin(admin.ModelAdmin):
+class IngredientAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     list_display = ("name",)
 
