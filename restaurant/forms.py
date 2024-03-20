@@ -1,5 +1,5 @@
 from django import forms
-from .models import Dish, Ingredient
+from .models import Dish
 
 
 class DishForm(forms.ModelForm):
